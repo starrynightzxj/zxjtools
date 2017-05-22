@@ -1,0 +1,112 @@
+旧版本jdk下载:      http://www.oracle.com/technetwork/java/archive-139210.html
+
+
+EditPlus注册码:  User:GNU   Serial:918A8-20DD8-44ZA1-B0W4A-13T66
+
+
+  
+软碟通注册码:   用户名:王涛 注册码:7C81-1689-4046-626F
+
+
+
+VMware Workstation 12序列号：
+5A02H-AU243-TZJ49-GTC7K-3C61N
+
+
+
+intellij IDEA注册:  注册时选择 License server ，填 http://www.iteblog.com/idea/key.php ，然后点击 OK
+
+
+
+JDK环境变量:
+新建: JAVA_HOME    jdk路径
+修改: Path         %JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;      !注意前面是否有分号(没有就加上)
+新建: CLASSPATH    .;%JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar
+
+maven环境变量:
+新建: MAVEN_HOME   maven路径
+修改: Path         %MAVEN_HOME%\bin;                         !注意前面是否有分号(没有就加上)
+
+plsql developer注册码:
+Product code：ljjt68k39tlbd7epj2343fqll8zcf4qzusny
+Serial number：982156
+Password：xs374ca
+
+
+
+windows下命令启动oracle监听和服务 :
+1.检查监听器状态
+C:\Users\Administrator>lsnrctl status 
+2.启动监听程序
+C:\Users\Administrator>lsnrctl start
+3.启动oracle服务实例
+C:\Users\Administrator>net start oracleServiceOrcl  --oracleService+数据库实例名
+4.关闭oracle服务实例
+ C:\Users\Administrator>net stop oracleServiceOrcl
+5.关闭监听
+C:\Users\Administrator>lsnrctl stop
+
+
+mysql解压版安装:
+1.环境变量Path添加mysql的bin目录
+2.my-default.ini文件修改 
+  basedir = E:\work\mysql-5.7.12-winx64
+  datadir = E:\work\mysql-5.7.12-winx64\data
+3.管理员cmd进入mysql的bin目录
+sc delete mysql
+F:回车
+F:cd phptools\MySQL\bin（回车）
+F:\phptools\MySQL\bin>mysqld --initialize-insecure --user=mysql
+  mysqld -install
+  net start mysql
+  mysql -u root -p
+ (
+  如果登陆报错 my-default.ini文件中[mysqld]一行下面添加skip-grant-tables 重启Mysql
+  管理员cmd: 进入mysql的bin目录 mysqld --skip-grant-tables
+  再打开一个管理员cmd:  mysql -u root -p 跳过密码
+    update mysql.user  set password=password('root') where user='root';
+  或update mysql.user set authentication_string=password('root') where user='root';
+ )
+
+
+sublime text3激活码:
+—– BEGIN LICENSE —–
+Michael Barnes
+Single User License
+EA7E-821385
+8A353C41 872A0D5C DF9B2950 AFF6F667
+C458EA6D 8EA3C286 98D1D650 131A97AB
+AA919AEC EF20E143 B361B1E7 4C8B7F04
+B085E65E 2F5F5360 8489D422 FB8FC1AA
+93F6323C FD7F7544 3F39C318 D95E6480
+FCCC7561 8A4A1741 68FA4223 ADCEDE07
+200C25BE DBBC4855 C4CFB774 C5EC138C
+0FEC1CEF D9DCECEC D3A5DAD1 01316C36
+—— END LICENSE ——
+
+sublime text3汉化:
+View > Show Console 输入命令:
+import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)
+回车并重启  Preferences/Package Control/Install Package/ChineseLocalization
+
+
+
+
+
+
+mysql -u root
+ 
+　　mysql> use mysql;
+ 
+　　mysql> UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
+ 
+　　mysql> FLUSH PRIVILEGES;*23AE809DDACAF96AF0FD78ED04B6A265E05AA257
+在丢失root密码的时候，可以这样
+
+mysqld_safe --skip-grant-tables&
+ 
+　　mysql -u root mysql
+ 
+　　mysql> UPDATE user SET password=PASSWORD("new password") WHERE user='root';
+ 
+　　mysql> FLUSH PRIVILEGES;
