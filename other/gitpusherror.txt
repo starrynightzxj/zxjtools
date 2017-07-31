@@ -1,0 +1,8 @@
+Git Push错误“Error writing request body to server” 
+
+默认Git设置http post的缓存为1M
+解决方法: 增加http post缓存， 如果使用git命令，设置参数命令如下：
+#增加为 500MB git config http.postBuffer 524288000
+如果使用的是Eclipse Git插件，则需要在 Window -> Preferences 中找到 Team -> Git -> Configuration 配置界面，在System Settings Tab页中 点击 “Add Entry…” 按钮来添加一个配置项：
+
+key为： http.postBuffer value为：524288000
