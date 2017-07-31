@@ -1,0 +1,271 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.axatp.zxj</groupId>
+	<artifactId>zxjtest</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>zxj</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.groupId>org.springframework</spring.groupId>
+		<spring.version>3.2.9.RELEASE</spring.version>
+		<jackson.version>2.1.4</jackson.version>
+		<nexus.proxy.location>10.100.61.159:8081</nexus.proxy.location>
+		<compile.version>1.7</compile.version>
+	</properties>
+
+	<dependencies>
+		<!-- 添加spring依赖包 -->
+		<dependency>
+			<groupId>${spring.groupId}</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.1</version>
+		</dependency>
+	</dependencies>
+	<!-- 指定的资源库 -->
+	<!-- aliyunpeizhi
+	<mirror>  
+	  <id>alimaven</id>  
+	  <name>aliyun maven</name>  
+	  <url>http://maven.aliyun.com/nexus/content/groups/public/</url>  
+	  <mirrorOf>central</mirrorOf>          
+	</mirror>
+    <repository>  
+        <id>maven-ali</id>  
+        <url>http://maven.aliyun.com/nexus/content/groups/public//</url>  
+        <releases>  
+            <enabled>true</enabled>  
+        </releases>  
+        <snapshots>  
+            <enabled>true</enabled>  
+            <updatePolicy>always</updatePolicy>  
+            <checksumPolicy>fail</checksumPolicy>  
+        </snapshots>  
+    </repository>  
+	 -->
+	<repositories>
+		<repository>
+			<id>releases</id>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<url>http://${nexus.proxy.location}/nexus/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>snapshot</id>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>ignore</checksumPolicy>
+			</snapshots>
+			<url>http://${nexus.proxy.location}/nexus/content/groups/public-snapshots/</url>
+		</repository>
+	</repositories>
+	<!-- 插件资源库 -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>releases</id>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<url>http://${nexus.proxy.location}/nexus/content/groups/public</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>codehaus snapshot repository</id>
+			<url>http://snapshots.repository.codehaus.org/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<build>
+		<finalName>zxjtest</finalName>
+		<!-- 命令行输入mvn时，默认执行mvn package -->
+		<defaultGoal>package</defaultGoal>
+		<resources>
+			<resource>
+				<!-- 指定resources插件处理哪个目录下的资源文件 -->
+				<directory>src/main/resources</directory>
+				<!-- 指定不需要处理的资源 -->
+				<excludes>
+					<exclude>**/*.properties</exclude>
+				</excludes>
+
+				<!-- 是否对待处理的资源开启过滤模式 (resources插件的copy-resources目标也有资源过滤的功能，这里配置的 这个功能的效果跟<build><resources><resource>下配置的资源过滤是一样的，只不过可能执行的阶段不一样， 
+					这里执行的阶段是插件指定的validate阶段，<build><resources><resource>下的配置将是在resources插件的resources目标执行时起作用（在process-resources阶段）) -->
+				<!-- 过滤器:是否替换如：${key} 这样的值。 一般为false, 否则修改配置文件可能无效 -->
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<!-- compile java -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>${compile.version}</source>
+					<target>${compile.version}</target>
+					<encoding>UTF-8</encoding>
+					<showDeprecations>true</showDeprecations>
+				</configuration>
+			</plugin>
+			<!-- compile resource -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<!-- test -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<argLine>-Xmx512M -Dfile.encoding=UTF-8</argLine>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<forkMode>once</forkMode>
+					<reportFormat>xml</reportFormat>
+					<parallel>methods</parallel>
+					<threadCount>10</threadCount>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.3</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<outputEncoding>UTF-8</outputEncoding>
+					<sourceEncoding>UTF-8</sourceEncoding>
+					<findbugsXmlOutput>true</findbugsXmlOutput>
+					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+					<xmlOutput>true</xmlOutput>
+				</configuration>
+			</plugin>
+
+			<!-- dependency插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.10</version>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>site</phase>
+						<configuration>
+							<tasks>
+								<copy todir="target/classes">
+									<fileset dir="src/main/java">
+										<include name="**/*.java" />
+									</fileset>
+								</copy>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- deploy artifacts to remote -->
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+				<configuration>
+					<updateReleaseInfo>true</updateReleaseInfo>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<locales>zh_CN</locales>
+					<inputEncoding>UTF-8</inputEncoding>
+					<outputEncoding>UTF-8</outputEncoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass></mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- source插件,打包源码 -->
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
